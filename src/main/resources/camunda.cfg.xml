@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="processEngineConfiguration" class="org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration">
+
+    <property name="jdbcUrl" value="jdbc:mysql://pacfg-c.mysql.qa.bx:6221/pasbpm?characterEncoding=UTF-8" />
+    <property name="jdbcDriver" value="com.mysql.jdbc.Driver" />
+    <property name="jdbcUsername" value="bx_pacfg" />
+    <property name="jdbcPassword" value="44d18bc23f783a283d9ad67cbe0e5942" />
+
+    <!-- Database configurations   isMetricsEnabled-->
+    <property name="databaseSchemaUpdate" value="true" />
+    <property name="metricsEnabled" value="false"></property>
+    <property name="dbHistoryUsed" value="true"></property>
+  <property name="historyLevel" value="HISTORY_LEVEL_FULL"></property>
+    <property name="processEnginePlugins">
+      <list>
+
+        <bean id="shareniuProcessEnginePlugin" class="com.shareniu.ch1.ShareniuProcessEnginePlugin"></bean>
+      </list>
+
+    </property>
+
+  </bean>
+
+
+  <bean id="testA" class="com.shareniu.ch1.TestA">
+    <property name="age" value="18"></property>
+    <property name="name" value="分享牛"></property>
+  </bean>
+
+</beans>
