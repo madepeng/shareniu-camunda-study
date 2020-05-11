@@ -56,10 +56,26 @@ public class RepositoryServiceTest {
     }
 
     @Test
-    public void startProcessInstanceByKey() {
+    public void startProcessInstanceById() {
         Map<String, Object> map = new HashMap<>();
         map.put("userId", "1");
         ProcessInstance processInstance = runtimeService.startProcessInstanceById("leave:1:603", map);
         System.out.println(processInstance);
     }
+
+    @Test
+    public void startProcessInstanceByKey() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", "1");
+        ProcessInstance processInstance = runtimeService.
+                createProcessInstanceByKey("leave").setVariables(map).execute();
+    }
+
+    @Test
+    public void startProcessInstanceByKeyAndId() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", "1");
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("leave","vaddr", map);
+    }
+
 }
