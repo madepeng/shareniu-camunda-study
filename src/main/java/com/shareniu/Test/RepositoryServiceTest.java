@@ -1,6 +1,8 @@
 package com.shareniu.Test;
 
 import com.shareniu.Test.bean.ValueBean;
+import org.camunda.bpm.dmn.engine.DmnDecisionResult;
+import org.camunda.bpm.dmn.engine.DmnDecisionTableResult;
 import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.repository.Deployment;
@@ -26,6 +28,7 @@ public class RepositoryServiceTest {
     RepositoryService repositoryService;
     RuntimeService runtimeService;
     TaskService taskService;
+    DecisionService decisionService;
 
     @Before
     public void init() {
@@ -35,6 +38,7 @@ public class RepositoryServiceTest {
         repositoryService = processEngine.getRepositoryService();
         runtimeService = processEngine.getRuntimeService();
         taskService = processEngine.getTaskService();
+        decisionService = processEngine.getDecisionService();
     }
 
     @Test
@@ -128,4 +132,39 @@ public class RepositoryServiceTest {
         ProcessInstance processInstance = runtimeService.
                 startProcessInstanceByKey("time3");
     }
+
+    @Test
+    public void decisionService1() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("key","ST010001");
+        DmnDecisionResult sceneConfig = decisionService.evaluateDecisionByKey("SceneConfig")
+                .decisionDefinitionWithoutTenantId().variables(map).evaluate();
+        System.out.println(sceneConfig.getSingleResult());
+    }
+
+    @Test
+    public void decisionService2() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("sceneType","ST010001");
+        DmnDecisionTableResult sceneConfig = decisionService.evaluateDecisionTableByKey("SceneConfig", map);
+        System.out.println(sceneConfig.getSingleResult());
+    }
+
+    /*@Test
+    public void decisionService3() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("sceneType","ST010001");
+
+        DecisionDefinition dd = repositoryService.createDecisionDefinitionQuery()
+                .decisionDefinitionKey("SceneConfig")
+                .latestVersion()
+                .singleResult();
+
+        SpinJsonNode globalNode = JSON("{}")
+                .prop("sceneType", "ST010001");
+
+        VariableMap variables = Variables.createVariables().putValue("global", SpinValues.jsonValue(globalNode).create());
+        DmnDecisionResultEntries singleResult = decisionService.evaluateDecisionById(dd.getId()).variables(variables).evaluate().getSingleResult();
+        System.out.println((String) singleResult.getEntry("acctTradeType"));
+    }*/
 }
