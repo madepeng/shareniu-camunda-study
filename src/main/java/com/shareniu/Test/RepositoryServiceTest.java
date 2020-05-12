@@ -1,11 +1,13 @@
 package com.shareniu.Test;
 
+import com.shareniu.Test.bean.ValueBean;
 import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.repository.Deployment;
 import org.camunda.bpm.engine.repository.DeploymentBuilder;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.runtime.ProcessInstanceWithVariables;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -77,5 +79,22 @@ public class RepositoryServiceTest {
         map.put("userId", "1");
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("leave","vaddr", map);
     }
+
+    @Test
+    public void service1() {
+        ProcessInstance processInstance = runtimeService.
+                startProcessInstanceByKey("service1","123456");
+    }
+
+    @Test
+    public void service2() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("bean", new ValueBean("okokok"));
+        map.put("result","fdfsdf");
+        ProcessInstanceWithVariables service2 = runtimeService.
+                createProcessInstanceByKey("service2").setVariables(map).executeWithVariablesInReturn();
+        System.out.println(service2.getVariables());
+    }
+
 
 }
