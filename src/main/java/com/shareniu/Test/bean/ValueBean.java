@@ -1,8 +1,6 @@
 package com.shareniu.Test.bean;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.io.Serializable;
 
 /**
  * @ClassName ValueBean
@@ -11,9 +9,19 @@ import lombok.NoArgsConstructor;
  * @Date 2020/5/12
  * @Version V1.0
  **/
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class ValueBean {
+
+public class ValueBean implements Serializable {
     private String value;
+
+    public ValueBean(String value) {
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
 }

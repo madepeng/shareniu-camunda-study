@@ -89,12 +89,43 @@ public class RepositoryServiceTest {
     @Test
     public void service2() {
         Map<String, Object> map = new HashMap<>();
-        map.put("bean", new ValueBean("okokok"));
+        map.put("test", new ValueBean("okokok"));
         map.put("result","fdfsdf");
         ProcessInstanceWithVariables service2 = runtimeService.
                 createProcessInstanceByKey("service2").setVariables(map).executeWithVariablesInReturn();
-        System.out.println(service2.getVariables());
+        System.out.println("result:" + service2.getVariables().values());
     }
 
+    @Test
+    public void service3() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("test", new ValueBean("okokok"));
+        map.put("result","fdfsdf");
+        ProcessInstance processInstance = runtimeService.
+                startProcessInstanceByKey("service3","123456",map);
+    }
 
+    @Test
+    public void msg1() {
+        ProcessInstance processInstance = runtimeService.
+                startProcessInstanceByMessage("msgname");
+    }
+
+    @Test
+    public void msg2() {
+        ProcessInstance processInstance = runtimeService.
+                startProcessInstanceByMessage("msg2_2");
+    }
+
+    @Test
+    public void signal1() {
+        ProcessInstance processInstance = runtimeService.
+                startProcessInstanceByKey("signal5");
+    }
+
+    @Test
+    public void time1() {
+        ProcessInstance processInstance = runtimeService.
+                startProcessInstanceByKey("time3");
+    }
 }
